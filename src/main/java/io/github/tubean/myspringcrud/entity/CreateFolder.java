@@ -3,7 +3,7 @@ package io.github.tubean.myspringcrud.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "FOLDER")
+@Table(name = "folder")
 public class CreateFolder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

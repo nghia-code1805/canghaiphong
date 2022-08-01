@@ -28,15 +28,6 @@
             <div style="clear: both; display: block; height: 10px"></div>
             <input type="submit" class="btn btn-success" value="Save"/>
         </form>
-
-        <form th:object="${folder}" th:action="@{createFolder}" action="#" method="post">
-            <div>
-                <label th:text="Name" th:for="folderName"></label>
-                <input type="text" th:field="*{folderName}" class="form-control" placeholder="Name"/>
-            </div>
-            <div style="clear: both; display: block; height: 10px"></div>
-            <input type="submit" class="btn btn-success" value="createFolder"/>
-        </form>
     </div>
 </div>
 </body>
