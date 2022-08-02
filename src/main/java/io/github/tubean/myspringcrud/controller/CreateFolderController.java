@@ -29,13 +29,12 @@ public class CreateFolderController {
         return "createFolder";
     }
 
-
     @RequestMapping(value = "saveFolder", method = RequestMethod.POST)
     public String save(CreateFolder createFolder) throws IOException, URISyntaxException {
         String nameFolder = createFolder.getFolderName();
         File folder = createResourceSubFolder(nameFolder);
         createFolderService.save(createFolder);
-        return "redirect:/add";
+        return "redirect:/viewFolders";
     }
 
     private static File createResourceSubFolder(String folderName) throws URISyntaxException, IOException {

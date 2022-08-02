@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>View Folder</title>
+    <link type="text/css" rel="stylesheet" href="bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
+</head>
+<body>
+<div class="col-3"></div>
+<div class="container col-6">
+    <h1>View Folder</h1>
+    <table class="table table-active">
+        <tr>
+            <th>Name Folder</th>
+        </tr>
+        <tr th:each="folder : ${folders}">
+            <td th:text="${folder.folderName}"></td>
+            <td>
+                <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Add Image</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
