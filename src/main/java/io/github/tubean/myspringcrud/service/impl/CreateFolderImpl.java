@@ -29,6 +29,11 @@ public class CreateFolderImpl implements CreateFolderService {
         return createFolderRepository.findById(id);
     }
 
+    @Override
+    public List<CreateFolder> findAllContainer(String keyword) {
+        return createFolderRepository.search(keyword);
+    }
+
 //    @Override
 //    public List<CreateFolder> findBy(Long id) {
 //        return createFolderRepository.;

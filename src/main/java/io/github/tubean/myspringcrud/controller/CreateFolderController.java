@@ -31,8 +31,8 @@ public class CreateFolderController {
 
     @RequestMapping(value = "saveFolder", method = RequestMethod.POST)
     public String save(CreateFolder createFolder) throws IOException, URISyntaxException {
-        String nameFolder = createFolder.getFolderName();
-        File folder = createResourceSubFolder(nameFolder);
+//        String nameFolder = createFolder.getFolderName();
+//        File folder = createResourceSubFolder(nameFolder);
         createFolderService.save(createFolder);
         return "redirect:/viewFolders";
     }
@@ -47,4 +47,8 @@ public class CreateFolderController {
         }
         return testResultsFolder;
     }
+
+
+
+
 }

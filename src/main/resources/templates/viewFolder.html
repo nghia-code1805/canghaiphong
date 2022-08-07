@@ -2,21 +2,26 @@
 <html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
-    <title>View Folder</title>
+    <title>Danh sách Container</title>
     <link type="text/css" rel="stylesheet" href="bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
 </head>
 <body>
 <div class="col-3"></div>
 <div class="container col-6">
-    <h1>View Folder</h1>
-    <table class="table table-active">
+    <h1>Danh sách Container</h1>
+    <form th:action="@{/}" method="get">
+        <input id="textSearch" type="text" name="keyword"/>
+        <button type="submit">Go</button>
+    </form>
+    <table id="example" class="table table-active">
         <tr>
-            <th>Name Folder</th>
+            <th>Mã container</th>
         </tr>
         <tr th:each="folder : ${folders}">
             <td th:text="${folder.folderName}"></td>
             <td>
-                <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Add Image</a>
+<!--                <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Thêm hình ảnh</a>-->
+                <a th:href="@{/showAllImage?id={id}(id=${folder.id})}" class="btn btn-default">Xem chi tiết</a>
             </td>
         </tr>
     </table>

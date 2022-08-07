@@ -6,6 +6,7 @@ import io.github.tubean.myspringcrud.service.CreateFolderService;
 import io.github.tubean.myspringcrud.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,10 +35,14 @@ public class viewFolder {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping("/viewFolders")
-    public String index(Model model){
-        List<CreateFolder> createFolders = createFolderService.getAll();
-        model.addAttribute("folders", createFolders);
+    @RequestMapping("/")
+    public String index(Model model, @Param("keyword") String keyword){
+
+        if (keyword != null){
+            model.addAttribute("folders", createFolderService.findAllContainer(keyword));
+        }else {
+            model.addAttribute("folders", createFolderService.getAll());
+        }
         return "viewFolder";
     }
 
@@ -89,7 +94,6 @@ public class viewFolder {
             imageGallery.setFolderName(nameFolder);
             imageGallery.setCreateDate(createDate);
             imageService.saveImage(imageGallery);
-//            log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
             return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
