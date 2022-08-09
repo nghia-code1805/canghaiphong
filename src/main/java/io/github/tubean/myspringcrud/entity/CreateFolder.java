@@ -13,12 +13,12 @@ public class CreateFolder {
     @Column(name = "FOLDER_NAME")
     private String folderName;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "create_date")
-//    private Date createDate;
-//
-//    @Column(name = "hang")
-//    private String hang;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @Column(name = "hang")
+    private String hang;
 
     public CreateFolder() {
     }
@@ -26,8 +26,8 @@ public class CreateFolder {
     public CreateFolder(Long id, String folderName, Date createDate, String hang) {
         this.id = id;
         this.folderName = folderName;
-//        this.createDate = createDate;
-//        this.hang = hang;
+        this.createDate = createDate;
+        this.hang = hang;
     }
 
     public Long getId() {
@@ -46,19 +46,19 @@ public class CreateFolder {
         this.folderName = folderName;
     }
 
-//    public Date getCreateDate() {
-//        return createDate;
-//    }
-//
-//    public void setCreateDate(Date createDate) {
-//        this.createDate = createDate;
-//    }
-//
-//    public String getHang() {
-//        return hang;
-//    }
-//
-//    public void setHang(String hang) {
-//        this.hang = hang;
-//    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getHang() {
+        return hang;
+    }
+
+    public void setHang(String hang) {
+        this.hang = hang;
+    }
 }
