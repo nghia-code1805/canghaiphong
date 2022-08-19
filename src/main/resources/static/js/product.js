@@ -20,10 +20,10 @@ $(document).ready(function () {
             $("#image").css("border-color", "red");
             $("#price").css("border-color", "red");
             $("#description").css("border-color", "red");
-            $("#error_name").html("Please fill the required field.");
-            $("#error_file").html("Please fill the required field.");
-            $("#error_price").html("Please fill the required field.");
-            $("#error_description").html("Please fill the required field.");
+            $("#error_name").html("Bạn chưa chọn hình ảnh tải lên.");
+            $("#error_file").html("Bạn chưa chọn hình ảnh tải lên.");
+            $("#error_price").html("Bạn chưa chọn hình ảnh tải lên.");
+            $("#error_description").html("Bạn chưa chọn hình ảnh tải lên.");
         } else {
             $("#name").css("border-color", "");
             $("#image").css("border-color", "");

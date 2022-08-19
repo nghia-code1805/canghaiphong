@@ -17,24 +17,27 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 @Controller
 public class CreateFolderController {
     @Autowired
     private CreateFolderService createFolderService;
 
-    @RequestMapping(value = "createFolder")
+    @RequestMapping(value = "createContainer")
     public String create(Model model){
-        model.addAttribute("createFolder", new CreateFolder());
-        return "createFolder";
+        model.addAttribute("createContainer", new CreateFolder());
+        return "createContainer";
     }
 
     @RequestMapping(value = "saveFolder", method = RequestMethod.POST)
     public String save(CreateFolder createFolder) throws IOException, URISyntaxException {
 //        String nameFolder = createFolder.getFolderName();
 //        File folder = createResourceSubFolder(nameFolder);
+        Date date = new Date();
+        createFolder.setCreateDate(date);
         createFolderService.save(createFolder);
-        return "redirect:/viewFolders";
+        return "redirect:/";
     }
 
     private static File createResourceSubFolder(String folderName) throws URISyntaxException, IOException {

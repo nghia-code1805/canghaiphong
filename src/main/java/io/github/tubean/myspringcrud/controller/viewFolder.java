@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
@@ -36,11 +34,11 @@ public class viewFolder {
     private ImageService imageService;
 
     @RequestMapping("/")
-    public String index(Model model, @Param("keyword") String keyword){
+    public String index(Model model, @Param("keyword") String keyword) {
 
-        if (keyword != null){
+        if (keyword != null) {
             model.addAttribute("folders", createFolderService.findAllContainer(keyword));
-        }else {
+        } else {
             model.addAttribute("folders", createFolderService.getAll());
         }
         return "viewFolder";
@@ -53,7 +51,7 @@ public class viewFolder {
     }
 
     @RequestMapping(value = "/addImage", method = RequestMethod.GET)
-    public String addImage(@RequestParam("id") Long id, Model model){
+    public String addImage(@RequestParam("id") Long id, Model model) {
         Optional<CreateFolder> idFolder = createFolderService.findById(id);
         idFolder.ifPresent(folder -> model.addAttribute("folder", folder));
         return "addImage";
@@ -61,44 +59,46 @@ public class viewFolder {
 
     @PostMapping("/image/saveImageDetails")
     public @ResponseBody
-    ResponseEntity<?> createProduct(Model model, HttpServletRequest request,final @RequestParam("image") MultipartFile file, @RequestParam("id") Long id) {
+    ResponseEntity<?> createProduct(Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile[] file, @RequestParam("id") Long id) throws IOException {
         try {
             String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-            String fileName = file.getOriginalFilename();
-            String filePath = Paths.get(uploadDirectory, fileName).toString();
-            if (fileName == null || fileName.contains("..")) {
-                model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
-                return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-            }
-            Date createDate = new Date();
-            try {
-                File dir = new File(uploadDirectory);
-                if (!dir.exists()) {
-                    dir.mkdirs();
+
+            for (int i = 0; i < file.length; i++) {
+                MultipartFile files = file[i];
+                byte[] bytes = files.getBytes();
+                String fileName = files.getOriginalFilename();
+                String filePath = Paths.get(uploadDirectory, fileName).toString();
+                if (fileName == null || fileName.contains("..")) {
+                    model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
+                    return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
                 }
-                // Save the file locally
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-                stream.write(file.getBytes());
-                stream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                try {
+                    File dir = new File(uploadDirectory);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    // Save the file locally
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+                    stream.write(bytes);
+                    stream.close();
+
+                    Date createDate = new Date();
+                    Optional<CreateFolder> idFolder = createFolderService.findById(id);
+                    String nameFolder = idFolder.get().getFolderName();
+
+                    Image imageGallery = new Image();
+                    imageGallery.setName(fileName);
+                    imageGallery.setImage(bytes);
+                    imageGallery.setFolderName(nameFolder);
+                    imageGallery.setCreateDate(createDate);
+                    imageService.saveImage(imageGallery);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-
-            Optional<CreateFolder> idFolder = createFolderService.findById(id);
-             String nameFolder = idFolder.get().getFolderName();
-
-            byte[] imageData = file.getBytes();
-            Image imageGallery = new Image();
-            imageGallery.setName(fileName);
-            imageGallery.setImage(imageData);
-            imageGallery.setFolderName(nameFolder);
-            imageGallery.setCreateDate(createDate);
-            imageService.saveImage(imageGallery);
-            return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-//            log.info("Exception: " + e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
         }
+        return new ResponseEntity<>("Product Saved With File - ", HttpStatus.OK);
     }
 }
