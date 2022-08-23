@@ -14,6 +14,8 @@ public interface CreateFolderService {
 
     Optional<CreateFolder> findById(Long id);
 
+    void deleteContainer(Long id);
+
     public List<CreateFolder> findAllContainer(String keyword);
 
 //    Page<CreateFolder> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);

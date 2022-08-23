@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách Container</title>
-    <link type="text/css" rel="stylesheet" href="bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div class="container col-6">
@@ -12,27 +12,14 @@
 <div class="container col-6">
     <h1>Danh sách Container</h1>
     <form th:action="@{/}" method="get">
-        <input id="textSearch" type="text" name="keyword" class="form-control"/>
-        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <div class="input-group w-50">
+            <input id="textSearch" type="search" name="keyword" class="form-control rounded" aria-label="Search"
+                   aria-describedby="search-addon"/>
+            <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+        </div>
     </form>
+    <br>
     <table id="example" class="table table-active">
-        <!--        <thead>-->
-        <!--        <tr>-->
-        <!--            <th>-->
-        <!--                <a th:href="@{'/page/' + ${currentPage} + '?sortField=folderName&sortDir=' + ${reverseSortDir}}">-->
-        <!--                    Mã container</a>-->
-        <!--            </th>-->
-        <!--            <th>-->
-        <!--                <a th:href="@{'/page/' + ${currentPage} + '?sortField=createDate&sortDir=' + ${reverseSortDir}}">-->
-        <!--                    Ngày tháng</a>-->
-        <!--            </th>-->
-        <!--            <th>-->
-        <!--                <a th:href="@{'/page/' + ${currentPage} + '?sortField=hang&sortDir=' + ${reverseSortDir}}">-->
-        <!--                    Hãng</a>-->
-        <!--            </th>-->
-        <!--            <th> Hành Động</th>-->
-        <!--        </tr>-->
-        <!--        </thead>-->
         <tr>
             <th>Mã container</th>
             <th>Ngày tháng</th>
@@ -48,39 +35,11 @@
             <td>
                 <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Thêm hình ảnh</a>
                 <a th:href="@{/showAllImage?id={id}(id=${folder.id})}" class="btn btn-info">Xem chi tiết</a>
+                <a th:href="@{/delete?id={id}(id=${folder.id})}" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <!--    <div>&nbsp;</div>-->
-    <!--    <div><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></div>-->
-    <!--    <div>&nbsp;</div>-->
-    <!--    <div th:if="${totalPages > 1}">-->
-    <!--        Total Items: [[${totalItems}]]-->
-    <!--        &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;-->
-
-    <!--        <a th:if="${currentPage > 1}" th:href="@{'/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>-->
-    <!--        <span th:unless="${currentPage > 1}">First</span>-->
-    <!--        &nbsp;&nbsp;-->
-
-    <!--        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>-->
-    <!--        <span th:unless="${currentPage > 1}">Previous</span>-->
-
-    <!--        &nbsp;&nbsp;-->
-
-    <!--        <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-    <!--			<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-    <!--			<span th:unless="${currentPage != i}">[[${i}]]</span>-->
-    <!--			&nbsp;-->
-    <!--		</span>-->
-
-    <!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-    <!--        <span th:unless="${currentPage < totalPages}">Next</span>-->
-    <!--        &nbsp;&nbsp;-->
-
-    <!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-    <!--        <span th:unless="${currentPage < totalPages}">Last</span>-->
-    <!--    </div>-->
 </div>
 </body>
 </html>

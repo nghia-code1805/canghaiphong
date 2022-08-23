@@ -57,6 +57,14 @@ public class viewFolder {
         return "addImage";
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("id") Long id, Model model ){
+        Optional<CreateFolder> idFolderDelete = createFolderService.findById(id);
+        Long idDelete = idFolderDelete.get().getId();
+        createFolderService.deleteContainer(idDelete);
+        return "redirect:/";
+    }
+
     @PostMapping("/image/saveImageDetails")
     public @ResponseBody
     ResponseEntity<?> createProduct(Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile[] file, @RequestParam("id") Long id) throws IOException {
