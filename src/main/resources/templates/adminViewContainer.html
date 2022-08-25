@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách Container</title>
+  <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container col-6">
+  <img th:src="@{'/image/Logo-TCHaiPhong189.png'}" height="225px" width="700px"/>
+</div>
+<div class="container col-6">
+  <h1>Danh sách Container</h1>
+  <form th:action="@{/}" method="get">
+    <div class="input-group w-50">
+      <input id="textSearch" type="search" name="keyword" class="form-control rounded" aria-label="Search"
+             aria-describedby="search-addon"/>
+      <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+    </div>
+  </form>
+  <br>
+  <table id="example" class="table table-active">
+    <tr>
+      <th>Mã container</th>
+      <th>Ngày tháng</th>
+      <th>Hãng</th>
+      <th>Hành Động</th>
+    </tr>
+    <tbody>
+    <tr th:each="folder : ${folders}">
+      <td th:text="${folder.folderName}"></td>
+      <td th:text="${#dates.format({folder.createDate}, 'dd-MM-yyyy')}"/>
+      </td>
+      <td th:text="${folder.hang}"></td>
+      <td>
+        <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Thêm hình ảnh</a>
+        <a th:href="@{/showAllImage?id={id}(id=${folder.id})}" class="btn btn-info">Xem chi tiết</a>
+        <a th:href="@{/delete?id={id}(id=${folder.id})}" class="btn btn-danger">Xóa</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

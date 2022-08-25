@@ -33,9 +33,7 @@
             </td>
             <td th:text="${folder.hang}"></td>
             <td>
-                <a th:href="@{/addImage?id={id}(id=${folder.id})}" class="btn btn-danger">Thêm hình ảnh</a>
                 <a th:href="@{/showAllImage?id={id}(id=${folder.id})}" class="btn btn-info">Xem chi tiết</a>
-                <a th:href="@{/delete?id={id}(id=${folder.id})}" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
         </tbody>

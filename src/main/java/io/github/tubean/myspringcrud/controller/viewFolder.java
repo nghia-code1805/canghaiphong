@@ -24,14 +24,8 @@ import java.util.Optional;
 @Controller
 public class viewFolder {
 
-    @Value("${uploadDir}")
-    private String uploadFolder;
-
     @Autowired
     private CreateFolderService createFolderService;
-
-    @Autowired
-    private ImageService imageService;
 
     @RequestMapping("/")
     public String index(Model model, @Param("keyword") String keyword) {
@@ -48,65 +42,5 @@ public class viewFolder {
     public String create(Model model) {
         model.addAttribute("viewFolder", new CreateFolder());
         return "viewFolder";
-    }
-
-    @RequestMapping(value = "/addImage", method = RequestMethod.GET)
-    public String addImage(@RequestParam("id") Long id, Model model) {
-        Optional<CreateFolder> idFolder = createFolderService.findById(id);
-        idFolder.ifPresent(folder -> model.addAttribute("folder", folder));
-        return "addImage";
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String delete(@RequestParam("id") Long id, Model model ){
-        Optional<CreateFolder> idFolderDelete = createFolderService.findById(id);
-        Long idDelete = idFolderDelete.get().getId();
-        createFolderService.deleteContainer(idDelete);
-        return "redirect:/";
-    }
-
-    @PostMapping("/image/saveImageDetails")
-    public @ResponseBody
-    ResponseEntity<?> createProduct(Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile[] file, @RequestParam("id") Long id) throws IOException {
-        try {
-            String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-
-            for (int i = 0; i < file.length; i++) {
-                MultipartFile files = file[i];
-                byte[] bytes = files.getBytes();
-                String fileName = files.getOriginalFilename();
-                String filePath = Paths.get(uploadDirectory, fileName).toString();
-                if (fileName == null || fileName.contains("..")) {
-                    model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
-                    return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-                }
-                try {
-                    File dir = new File(uploadDirectory);
-                    if (!dir.exists()) {
-                        dir.mkdirs();
-                    }
-                    // Save the file locally
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-                    stream.write(bytes);
-                    stream.close();
-
-                    Date createDate = new Date();
-                    Optional<CreateFolder> idFolder = createFolderService.findById(id);
-                    String nameFolder = idFolder.get().getFolderName();
-
-                    Image imageGallery = new Image();
-                    imageGallery.setName(fileName);
-                    imageGallery.setImage(bytes);
-                    imageGallery.setFolderName(nameFolder);
-                    imageGallery.setCreateDate(createDate);
-                    imageService.saveImage(imageGallery);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            fileNotFoundException.printStackTrace();
-        }
-        return new ResponseEntity<>("Product Saved With File - ", HttpStatus.OK);
     }
 }
