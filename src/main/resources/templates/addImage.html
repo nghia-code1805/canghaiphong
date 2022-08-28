@@ -8,38 +8,31 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
-<br><br>
-<h1 class="text-center">Thêm ảnh container rỗng</h1><br><br>
-<div class="contact py-sm-5 py-4">
-    <div class="container py-xl-4 py-lg-2">
+<div class="container col-6">
+    <img th:src="@{'/image/Logo-TCHaiPhong189.png'}" height="225px" width="700px"/>
+</div>
+<br>
+<div class="col-3"></div>
+<div class="container col-6">
+    <h1>Thêm ảnh container rỗng</h1>
+    <div class="col-md-auto" style="max-width: 400px">
         <!-- form -->
-        <form th:object="${folder}" th:action="@{save}" id="form">
+        <form th:object="${folder}" th:action="@{saveImages}" action="#" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
-            <div class="contact-grids1 w3agile-6">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 contact-form1 form-group">
-                        <label class="col-form-label">Image</label>
-                        <input type="file" class="form-control" placeholder="" name="image" id="image" required="required" multiple>
-                        <p id="error_file"></p>
-                    </div>
-                </div>
-                <div class="right-w3l col-md-6">
-                    <input type="button" id="submit" class="btn btn-primary form-control" value="Thêm Hình ảnh">
-                    <br><br>
-                </div>
-                <a href="/" style="float:left;" class="btn btn-success text-right">Trang chủ</a>
+            <div>
+                <label>Hình ảnh</label>
+                <input type="file" class="form-control" placeholder="" name="image" id="image" required="required" multiple>
             </div>
-            <br>
+            <div style="clear: both; display: block; height: 10px"></div>
+            <input type="submit" class="btn btn-success" value="Thêm Hình ảnh">
+            <br><br>
             <div id="success" class="text-center" style="color:green;"></div>
             <div id="error" class="text-center" style="color:red;"></div>
         </form>
     </div>
 </div>
-<p class="text-center">
-    <img src="/images/loader.gif" alt="loader" style="width: 150px;height: 120px;" id="loader">
-</p>
-<script src="/js/product.js"></script>
 </body>
 </html>

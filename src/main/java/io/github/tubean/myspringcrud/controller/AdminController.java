@@ -60,12 +60,11 @@ public class AdminController {
         Optional<CreateFolder> idFolderDelete = createFolderService.findById(id);
         Long idDelete = idFolderDelete.get().getId();
         createFolderService.deleteContainer(idDelete);
-        return "redirect:/";
+        return "redirect:/adminContainer";
     }
 
-    @PostMapping("/image/saveImageDetails")
-    public @ResponseBody
-    ResponseEntity<?> createProduct(Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile[] file, @RequestParam("id") Long id) throws IOException {
+    @RequestMapping(value = "saveImages", method = RequestMethod.POST)
+    public String createProduct(Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile[] file, @RequestParam("id") Long id) throws IOException {
         try {
             String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 
@@ -76,7 +75,7 @@ public class AdminController {
                 String filePath = Paths.get(uploadDirectory, fileName).toString();
                 if (fileName == null || fileName.contains("..")) {
                     model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
-                    return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
+//                    return "Sorry! Filename contains invalid path sequence";
                 }
                 try {
                     File dir = new File(uploadDirectory);
@@ -105,6 +104,7 @@ public class AdminController {
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         }
-        return new ResponseEntity<>("Product Saved With File - ", HttpStatus.OK);
+//        return new ResponseEntity<>("Product Saved With File - ", HttpStatus.OK);
+        return "redirect:/adminContainer";
     }
 }

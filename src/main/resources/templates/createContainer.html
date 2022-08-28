@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Tạo Container</title>
-    <link type="text/css" rel="stylesheet" href="bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+
 </head>
 <body>
+<div class="container col-6">
+    <img th:src="@{'/image/Logo-TCHaiPhong189.png'}" height="225px" width="700px"/>
+</div>
+<br>
 <div class="col-3"></div>
 <div class="container col-6">
     <h1>Tạo Container</h1>
-    <div class="col-md-auto">
+    <div class="col-md-auto" style="max-width: 400px">
         <form th:object="${createContainer}" th:action="@{saveFolder}" action="#" method="post">
             <div>
-                <label  th:for="folderName">Tạo Container</label>
+                <label th:for="folderName">Tạo Container</label>
                 <input type="text" th:field="*{folderName}" class="form-control" placeholder="Tạo container"/>
 
                 <label th:for="hang">Hãng Container</label>
